@@ -666,3 +666,16 @@ trace(int mask)
   release(&p->lock);
   return 0;
 }
+
+uint64
+procstat()
+{
+  uint64 n = 0;
+  for(int i = 0; i < NPROC; i++){
+    acquire(&proc[i].lock);
+    if(proc[i].state != UNUSED)
+      n++;
+    release(&proc[i].lock);
+  }
+  return n;
+}
